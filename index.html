@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chrome Built-in AI Nano Lab</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="masthead" aria-labelledby="pageTitle">
+        <div class="masthead__copy">
+          <p class="eyebrow">Chrome built-in AI demo</p>
+          <h1 id="pageTitle">Built-in AI Command Deck</h1>
+          <p class="lede">
+            A single-page cockpit for Chrome's built-in AI surface: translation,
+            language detection, summarization, writing, rewriting, prompting, and
+            proofreading with model status, streaming, abort, and fallbacks.
+          </p>
+          <div class="meta-strip" aria-label="Built-in AI APIs">
+            <span>Translator API</span>
+            <span>Language Detector API</span>
+            <span>Summarizer API</span>
+            <span>Writer API</span>
+            <span>Rewriter API</span>
+            <span>Prompt API</span>
+            <span>Proofreader API</span>
+            <a href="https://developer.chrome.com/docs/ai/built-in-apis">
+              Official Chrome docs
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-grid" aria-label="Runtime status">
+        <div class="status-panel">
+          <div class="status-line">
+            <span id="statusDot" class="status-dot" data-tone="idle"></span>
+            <span id="statusLabel">Checking API</span>
+          </div>
+          <p id="statusAction">Calling native API availability.</p>
+        </div>
+
+        <div class="meter-panel">
+          <div class="meter-label">
+            <span>Model download</span>
+            <span id="downloadLabel">idle</span>
+          </div>
+          <div class="meter"><span id="downloadBar"></span></div>
+        </div>
+
+        <div class="meter-panel">
+          <div class="meter-label">
+            <span>Context window</span>
+            <span id="contextLabel">context idle</span>
+          </div>
+          <div class="meter"><span id="contextMeter"></span></div>
+        </div>
+      </section>
+
+      <section class="api-board" aria-label="API status map">
+        <button class="api-card is-active" type="button" data-api-card="translator">
+          <span>Translator</span>
+          <strong>Chrome 138</strong>
+          <small>Translate dynamic user text on device.</small>
+        </button>
+        <button class="api-card" type="button" data-api-card="detector">
+          <span>Language Detector</span>
+          <strong>Chrome 138</strong>
+          <small>Rank likely source languages.</small>
+        </button>
+        <button class="api-card" type="button" data-api-card="summarizer">
+          <span>Summarizer</span>
+          <strong>Chrome 138</strong>
+          <small>Condense long-form content.</small>
+        </button>
+        <button class="api-card" type="button" data-api-card="writer">
+          <span>Writer</span>
+          <strong>Developer trial</strong>
+          <small>Create new content from a task.</small>
+        </button>
+        <button class="api-card" type="button" data-api-card="rewriter">
+          <span>Rewriter</span>
+          <strong>Developer trial</strong>
+          <small>Reshape tone, format, and length.</small>
+        </button>
+        <button class="api-card" type="button" data-api-card="prompt">
+          <span>Prompt</span>
+          <strong>Origin trial</strong>
+          <small>Custom Gemini Nano workflows.</small>
+        </button>
+        <button class="api-card" type="button" data-api-card="proofreader">
+          <span>Proofreader</span>
+          <strong>Origin trial</strong>
+          <small>Correct grammar and spelling ranges.</small>
+        </button>
+      </section>
+
+      <section class="lab-grid" aria-label="Built-in AI lab">
+        <aside class="mode-rail" aria-label="Native API controls">
+          <div class="rail-heading">
+            <span id="modeLabel">Translator</span>
+            <small id="modeKicker">language packs</small>
+          </div>
+
+          <div class="api-switch" aria-label="Built-in AI APIs">
+            <button class="api-tab is-active" type="button" data-api="translator">
+              <span>Translator</span>
+              <small>Translator</small>
+            </button>
+            <button class="api-tab" type="button" data-api="detector">
+              <span>Detector</span>
+              <small>LanguageDetector</small>
+            </button>
+            <button class="api-tab" type="button" data-api="summarizer">
+              <span>Summarizer</span>
+              <small>Summarizer</small>
+            </button>
+            <button class="api-tab" type="button" data-api="writer">
+              <span>Writer</span>
+              <small>Writer</small>
+            </button>
+            <button class="api-tab" type="button" data-api="rewriter">
+              <span>Rewriter</span>
+              <small>Rewriter</small>
+            </button>
+            <button class="api-tab" type="button" data-api="prompt">
+              <span>Prompt</span>
+              <small>LanguageModel</small>
+            </button>
+            <button class="api-tab" type="button" data-api="proofreader">
+              <span>Proofreader</span>
+              <small>Proofreader</small>
+            </button>
+          </div>
+
+          <div id="promptPresets" class="prompt-presets">
+            <button class="mode is-active" type="button" data-preset="search">
+              <span>Search</span>
+              <small>page Q&amp;A</small>
+            </button>
+            <button class="mode" type="button" data-preset="filter">
+              <span>Filter</span>
+              <small>true / false</small>
+            </button>
+            <button class="mode" type="button" data-preset="event">
+              <span>Event</span>
+              <small>calendar</small>
+            </button>
+            <button class="mode" type="button" data-preset="contact">
+              <span>Contact</span>
+              <small>extract</small>
+            </button>
+          </div>
+
+          <div class="policy-note">
+            <strong>Local model rule</strong>
+            <span>No prompt is sent to Google after Gemini Nano is installed.</span>
+          </div>
+        </aside>
+
+        <section class="workbench" aria-label="Native API workbench">
+          <div class="toolbar">
+            <span id="schemaLabel" class="schema-pill">free text</span>
+            <div class="toolbar__actions">
+              <button id="checkButton" type="button">Check</button>
+              <button id="sampleButton" type="button">Sample</button>
+              <button id="destroyButton" type="button">Destroy</button>
+            </div>
+          </div>
+
+          <div id="translatorOptions" class="option-grid option-grid--compact" data-options-for="translator">
+            <label>
+              <span>From</span>
+              <select id="sourceLanguage">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="ja">Japanese</option>
+                <option value="pt">Portuguese</option>
+                <option value="uk">Ukrainian</option>
+                <option value="zh">Chinese</option>
+              </select>
+            </label>
+            <label>
+              <span>To</span>
+              <select id="targetLanguage">
+                <option value="es">Spanish</option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="ja">Japanese</option>
+                <option value="pt">Portuguese</option>
+                <option value="uk">Ukrainian</option>
+                <option value="zh">Chinese</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="detectorOptions" class="option-grid option-grid--compact" data-options-for="detector" hidden>
+            <label>
+              <span>Expected languages</span>
+              <input id="expectedLanguages" type="text" value="en, es, fr, de, ja" />
+            </label>
+          </div>
+
+          <div id="summarizerOptions" class="option-grid" data-options-for="summarizer" hidden>
+            <label>
+              <span>Type</span>
+              <select id="summaryType">
+                <option value="key-points">Key points</option>
+                <option value="tldr">TLDR</option>
+                <option value="teaser">Teaser</option>
+                <option value="headline">Headline</option>
+              </select>
+            </label>
+            <label>
+              <span>Length</span>
+              <select id="summaryLength">
+                <option value="short">Short</option>
+                <option value="medium">Medium</option>
+                <option value="long">Long</option>
+              </select>
+            </label>
+            <label>
+              <span>Format</span>
+              <select id="summaryFormat">
+                <option value="markdown">Markdown</option>
+                <option value="plain-text">Plain text</option>
+              </select>
+            </label>
+            <label>
+              <span>Preference</span>
+              <select id="summaryPreference">
+                <option value="auto">Auto</option>
+                <option value="speed">Speed</option>
+                <option value="capability">Capability</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="writerOptions" class="option-grid" data-options-for="writer" hidden>
+            <label>
+              <span>Tone</span>
+              <select id="writerTone">
+                <option value="neutral">Neutral</option>
+                <option value="formal">Formal</option>
+                <option value="casual">Casual</option>
+              </select>
+            </label>
+            <label>
+              <span>Length</span>
+              <select id="writerLength">
+                <option value="short">Short</option>
+                <option value="medium">Medium</option>
+                <option value="long">Long</option>
+              </select>
+            </label>
+            <label>
+              <span>Format</span>
+              <select id="writerFormat">
+                <option value="markdown">Markdown</option>
+                <option value="plain-text">Plain text</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="rewriterOptions" class="option-grid" data-options-for="rewriter" hidden>
+            <label>
+              <span>Tone</span>
+              <select id="rewriterTone">
+                <option value="as-is">As-is</option>
+                <option value="more-formal">More formal</option>
+                <option value="more-casual">More casual</option>
+              </select>
+            </label>
+            <label>
+              <span>Length</span>
+              <select id="rewriterLength">
+                <option value="as-is">As-is</option>
+                <option value="shorter">Shorter</option>
+                <option value="longer">Longer</option>
+              </select>
+            </label>
+            <label>
+              <span>Format</span>
+              <select id="rewriterFormat">
+                <option value="as-is">As-is</option>
+                <option value="markdown">Markdown</option>
+                <option value="plain-text">Plain text</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="proofreaderOptions" class="option-grid option-grid--compact" data-options-for="proofreader" hidden>
+            <label>
+              <span>Input language</span>
+              <select id="proofLanguage">
+                <option value="en">English</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span id="questionLabel">Question</span>
+            <input
+              id="question"
+              type="text"
+              value="What can I build with this API?"
+              autocomplete="off"
+            />
+          </label>
+
+          <label class="field field--source">
+            <span id="sourceLabel">Source material</span>
+            <textarea id="source" spellcheck="false"></textarea>
+          </label>
+
+          <div class="run-row">
+            <button id="runButton" type="button" class="primary-button">
+              Run prompt
+            </button>
+            <button id="stopButton" type="button" disabled>Stop</button>
+          </div>
+        </section>
+
+        <section class="result-panel" aria-label="Native API result">
+          <div class="panel-heading">
+            <span>Result</span>
+            <small id="overflowNote" hidden>context overflow detected</small>
+          </div>
+          <pre id="output">Choose a mode, edit the source, and run a prompt.</pre>
+        </section>
+      </section>
+
+      <section class="reference-grid" aria-label="Implementation reference">
+        <div class="requirements">
+          <h2>Runtime Gate</h2>
+          <ul>
+            <li>Chrome desktop, ChromeOS Chromebook Plus, or supported origin trial.</li>
+            <li>macOS 13+, Windows 10/11, Linux, or supported ChromeOS.</li>
+            <li>At least 22 GB free profile volume space for first model download.</li>
+            <li>GPU over 4 GB VRAM, or CPU with 16 GB RAM and 4+ cores.</li>
+            <li>On localhost, enable the optimization guide model, Gemini Nano, and per-API flags.</li>
+          </ul>
+        </div>
+
+        <div class="snippet-panel">
+          <h2>Active Call</h2>
+          <pre id="snippet"></pre>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./prompt-lab.js"></script>
+  </body>
+</html>
