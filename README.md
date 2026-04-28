@@ -4,6 +4,8 @@ A single-page demo for Chrome's built-in AI APIs. It gives you one cockpit for t
 
 The demo is intentionally static: no build step, no framework, no server-side API, and no external model calls from the app. Open it on `localhost`, enable the required Chrome features, and test whichever native browser APIs your Chrome build exposes.
 
+![Chrome Built-in AI Command Deck screenshot](./assets/chrome-built-in-ai-command-deck.png)
+
 ## Live Scope
 
 This project showcases the current Chrome built-in AI surface described in the official Chrome documentation:
