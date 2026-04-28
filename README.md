@@ -6,6 +6,10 @@ The demo is intentionally static: no build step, no framework, no server-side AP
 
 ![Chrome Built-in AI Command Deck screenshot](./assets/chrome-built-in-ai-command-deck.png)
 
+## Live Demo
+
+https://chrome-built-in-ai-command-deck.vercel.app
+
 ## Live Scope
 
 This project showcases the current Chrome built-in AI surface described in the official Chrome documentation:
