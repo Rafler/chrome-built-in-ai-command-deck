@@ -342,8 +342,21 @@
             <li>macOS 13+, Windows 10/11, Linux, or supported ChromeOS.</li>
             <li>At least 22 GB free profile volume space for first model download.</li>
             <li>GPU over 4 GB VRAM, or CPU with 16 GB RAM and 4+ cores.</li>
-            <li>On localhost, enable the optimization guide model, Gemini Nano, and per-API flags.</li>
+            <li>On localhost, enable the model flags first, then the API-specific flags for trial APIs.</li>
           </ul>
+
+          <div class="flag-block" aria-label="Chrome flags to enable">
+            <h3>Flags To Enable</h3>
+            <div class="flag-list">
+              <code>chrome://flags/#optimization-guide-on-device-model</code>
+              <code>chrome://flags/#prompt-api-for-gemini-nano</code>
+              <code>chrome://flags/#prompt-api-for-gemini-nano-multimodal-input</code>
+              <code>chrome://flags/#writer-api-for-gemini-nano</code>
+              <code>chrome://flags/#rewriter-api-for-gemini-nano</code>
+              <code>chrome://flags/#proofreader-api-for-gemini-nano</code>
+            </div>
+            <p>If Chrome does not show a direct URL, search flags by API name and relaunch after changes.</p>
+          </div>
         </div>
 
         <div class="snippet-panel">

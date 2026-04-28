@@ -57,20 +57,29 @@ Use `localhost` or `127.0.0.1`. Do not judge the APIs through a raw `file://` UR
 
 ## Chrome Setup
 
-Use Chrome desktop. Some APIs are stable, some require origin trials, developer trials, EPP access, or flags.
+Use Chrome desktop and serve the demo from `localhost` or `127.0.0.1`. Some APIs are stable, while others require origin trials, developer trials, EPP access, or flags.
 
-Common local flags to check:
+Start with the model flags:
 
 ```text
 chrome://flags/#optimization-guide-on-device-model
 chrome://flags/#prompt-api-for-gemini-nano
 chrome://flags/#prompt-api-for-gemini-nano-multimodal-input
+```
+
+Then enable the API-specific flags you need for the full deck:
+
+```text
+chrome://flags/#writer-api-for-gemini-nano
+chrome://flags/#rewriter-api-for-gemini-nano
 chrome://flags/#proofreader-api-for-gemini-nano
 ```
 
-Chrome flag names shift as APIs move through trials. If a specific flag is missing, search `chrome://flags` for the API name, for example `summarizer`, `writer`, `rewriter`, `proofreader`, `prompt`, or `gemini nano`.
+Translator, Language Detector, and Summarizer are listed as Chrome 138 stable APIs. If they fail, check Chrome version, hardware requirements, and model download state before hunting for flags.
 
-After changing flags, relaunch Chrome.
+Chrome flag names shift as APIs move through trials. If a direct flag URL is missing, search `chrome://flags` for the API name, for example `summarizer`, `writer`, `rewriter`, `proofreader`, `prompt`, or `gemini nano`.
+
+After changing flags, relaunch Chrome. If the model still does not load, open `chrome://on-device-internals`, check the Model Status tab, then run `await LanguageModel.availability();` in DevTools.
 
 ## Runtime Requirements
 
@@ -240,4 +249,7 @@ The fallback outputs are deterministic. They are not trying to impersonate Gemin
 
 - Chrome built-in AI APIs: https://developer.chrome.com/docs/ai/built-in-apis
 - Built-in AI setup and requirements: https://developer.chrome.com/docs/ai/get-started
+- Writer API localhost flags: https://developer.chrome.com/docs/ai/writer-api
+- Rewriter API localhost flags: https://developer.chrome.com/docs/ai/rewriter-api
+- Proofreader API localhost flags: https://developer.chrome.com/docs/ai/proofreader-api
 - People + AI Guidebook: https://pair.withgoogle.com/guidebook/

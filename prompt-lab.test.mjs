@@ -145,3 +145,20 @@ test("page header links to official docs without article or author framing", () 
   assert.match(header, /https:\/\/developer\.chrome\.com\/docs\/ai\/built-in-apis/);
   assert.doesNotMatch(header, /Published|Updated|Thomas Steiner|Alexandra Klepper|author-stack/);
 });
+
+test("README and page show concrete Chrome flag guidance", () => {
+  const html = readFileSync(new URL("./index.html", import.meta.url), "utf8");
+  const readme = readFileSync(new URL("./README.md", import.meta.url), "utf8");
+  const combined = `${html}\n${readme}`;
+
+  for (const flag of [
+    "optimization-guide-on-device-model",
+    "prompt-api-for-gemini-nano",
+    "prompt-api-for-gemini-nano-multimodal-input",
+    "writer-api-for-gemini-nano",
+    "rewriter-api-for-gemini-nano",
+    "proofreader-api-for-gemini-nano",
+  ]) {
+    assert.match(combined, new RegExp(`chrome://flags/#${flag}`));
+  }
+});

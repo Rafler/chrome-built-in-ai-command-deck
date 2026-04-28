@@ -631,6 +631,45 @@ h2 {
   margin-top: 8px;
 }
 
+.flag-block {
+  margin-top: 20px;
+  border-top: 1px solid rgba(36, 33, 28, 0.14);
+  padding-top: 18px;
+}
+
+.flag-block h3 {
+  margin: 0 0 12px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.flag-list {
+  display: grid;
+  gap: 8px;
+}
+
+.flag-list code {
+  display: block;
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(36, 33, 28, 0.14);
+  border-radius: 6px;
+  background: #fff7e8;
+  padding: 8px 10px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.flag-block p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .snippet-panel {
   background: var(--ink);
   color: var(--paper-strong);
